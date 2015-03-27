@@ -4,10 +4,15 @@ import (
     "testing"
 )
 
-// 0
-// 1 2
-// 4
-// 3 5
+/* 
+      0
+     / \
+    1   2
+   /
+  4
+ / \
+3   5
+*/
 
 func TestExtractNodes(t *testing.T) {
     in := "INSERT INTO `foo` VALUES (0,'name 0',null),(1,'name 1',0),(2,'name 2',0),(3,'name 3',4),(4,'name 4',1),(5,'name 5',4)"
