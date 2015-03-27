@@ -30,22 +30,28 @@ func TestExtractNodes(t *testing.T) {
     }
 }
 
-// func TestBuildLinkedNodes(t *testing.T) {
-//     in := []RawAdjacencyTreeNode{
-//         RawAdjacencyTreeNode{Id: "0", ParentId: "null"},
-//         RawAdjacencyTreeNode{Id: "1", ParentId: "0"},
-//         RawAdjacencyTreeNode{Id: "2", ParentId: "0"},
-//         RawAdjacencyTreeNode{Id: "3", ParentId: "4"},
-//         RawAdjacencyTreeNode{Id: "4", ParentId: "1"},
-//         RawAdjacencyTreeNode{Id: "5", ParentId: "4"},
-//     }
+func TestBuildLinkedNodes(t *testing.T) {
+    in := []RawAdjacencyTreeNode{
+        RawAdjacencyTreeNode{Id: "0", ParentId: "null"},
+        RawAdjacencyTreeNode{Id: "1", ParentId: "0"},
+        RawAdjacencyTreeNode{Id: "2", ParentId: "0"},
+        RawAdjacencyTreeNode{Id: "3", ParentId: "4"},
+        RawAdjacencyTreeNode{Id: "4", ParentId: "1"},
+        RawAdjacencyTreeNode{Id: "5", ParentId: "4"},
+    }
 
-//     elem0 := *LinkedAdjacencyTreeNode{Id: "0"}
-//     elem1 := *LinkedAdjacencyTreeNode{Id: "1", Parent: elem0}
-//     elem2 := *LinkedAdjacencyTreeNode{Id: "2", Parent: elem0}
-//     elem4 := *LinkedAdjacencyTreeNode{Id: "4", Parent: elem1}
-//     elem3 := *LinkedAdjacencyTreeNode{Id: "3", Parent: elem4}
-//     elem5 := *LinkedAdjacencyTreeNode{Id: "5", Parent: elem4}
+    elem0 := LinkedAdjacencyTreeNode{Id: "0"}
+    elem1 := LinkedAdjacencyTreeNode{Id: "1", Parent: &elem0}
+    elem2 := LinkedAdjacencyTreeNode{Id: "2", Parent: &elem0}
+    elem4 := LinkedAdjacencyTreeNode{Id: "4", Parent: &elem1}
+    elem3 := LinkedAdjacencyTreeNode{Id: "3", Parent: &elem4}
+    elem5 := LinkedAdjacencyTreeNode{Id: "5", Parent: &elem4}
 
+    expectedOut := LinkedAdjacencyTreeNodes{Nodes: []LinkedAdjacencyTreeNode{elem0, elem1, elem2, elem3, elem4, elem5}}
 
-// }
+    actualOut := buildLinkedNodes(in)
+
+    if !actualOut.equalTo(expectedOut) {
+        t.Errorf("Expected %v, got %v", expectedOut, actualOut)
+    }
+}
