@@ -1,5 +1,9 @@
 package main
 
+import (
+    "fmt"
+)
+
 type RawAdjacencyTreeNode struct {
     Id, ParentId string
 }
@@ -41,10 +45,26 @@ func (a LinkedAdjacencyTreeNodes) equalTo(b LinkedAdjacencyTreeNodes) bool {
     for index, elemA := range a.Nodes {
         elemB := b.Nodes[index]
 
-        if elemA != elemB {
+        if elemA.Id != elemB.Id {
+            return false
+        }
+
+        if elemA.Parent != nil && elemA.Parent.Id != elemB.Parent.Id {
             return false
         }
     }
 
     return true
+}
+
+func (a LinkedAdjacencyTreeNode) String() string {
+    var parentId string
+
+    if a.Parent == nil {
+        parentId = "nil"
+    } else {
+        parentId = a.Parent.Id
+    }
+
+    return fmt.Sprintf("{id: %s, parentId: %s}", a.Id, parentId)
 }

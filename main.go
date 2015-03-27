@@ -64,12 +64,12 @@ func buildLinkedNodes(rawAdjacencyNodes []RawAdjacencyTreeNode) LinkedAdjacencyT
     // Link
     for _, rawNode := range rawAdjacencyNodes {
         if rawNode.ParentId != "null" {
+            var childIndex int
             var parentNode *LinkedAdjacencyTreeNode
-            var childNode *LinkedAdjacencyTreeNode
 
-            for _, linkedNode := range linkedAdjacencyNodesList {
+            for index, linkedNode := range linkedAdjacencyNodesList {
                 if linkedNode.Id == rawNode.Id {
-                    childNode = &linkedNode
+                    childIndex = index
                 }
 
                 if linkedNode.Id == rawNode.ParentId {
@@ -77,7 +77,7 @@ func buildLinkedNodes(rawAdjacencyNodes []RawAdjacencyTreeNode) LinkedAdjacencyT
                 }
             }
 
-            (*childNode).Parent = parentNode
+            linkedAdjacencyNodesList[childIndex].Parent = parentNode
         }
     }
 
