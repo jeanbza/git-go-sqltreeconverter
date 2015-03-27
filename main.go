@@ -7,19 +7,10 @@ import (
     "regexp"
 )
 
-type RawAdjacencyTreeNode struct {
-    Id, ParentId string
-}
-
-type LinkedAdjacencyTreeNode struct {
-    Id string
-    ParentId *LinkedAdjacencyTreeNode
-}
-
 func main() {
     fileText := getFileText("test_data.sql")
     rawAdjacencyNodes := extractNodes(fileText)
-    linkedAdjacencyNodes := buildLinkedNodes(rawAdjacencyNodes)
+    linkedAdjacencyNodes := buildLinkedNodes(rawAdjacencyNodes.Nodes)
 
     fmt.Println(linkedAdjacencyNodes)
 }
@@ -46,7 +37,7 @@ func getFileText(filePath string) string {
     return fileText
 }
 
-func extractNodes(fileText string) []RawAdjacencyTreeNode {
+func extractNodes(fileText string) RawAdjacencyTreeNodes {
     r := regexp.MustCompile(`(\d+),'\w+ \w+',(\w+)`)
     nodeStrings := r.FindAllStringSubmatch(fileText, -1)
 
@@ -59,9 +50,9 @@ func extractNodes(fileText string) []RawAdjacencyTreeNode {
         })
     }
 
-    return adjacencyNodes
+    return RawAdjacencyTreeNodes{Nodes: adjacencyNodes}
 }
 
-func buildLinkedNodes(rawAdjacencyNodes []RawAdjacencyTreeNode) []LinkedAdjacencyTreeNode {
-    return []LinkedAdjacencyTreeNode{}
+func buildLinkedNodes(rawAdjacencyNodes []RawAdjacencyTreeNode) LinkedAdjacencyTreeNodes {
+    return LinkedAdjacencyTreeNodes{}
 }
