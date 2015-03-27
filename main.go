@@ -53,8 +53,10 @@ func extractNodes(fileText string) RawAdjacencyTreeNodes {
     return RawAdjacencyTreeNodes{Nodes: adjacencyNodes}
 }
 
-func buildLinkedNodes(rawAdjacencyNodes []RawAdjacencyTreeNode) LinkedAdjacencyTreeNodes {
+func buildLinkedNodes(rawAdjacencyNodes []RawAdjacencyTreeNode) (root *LinkedAdjacencyTreeNode) {
     var linkedAdjacencyNodesList []LinkedAdjacencyTreeNode
+    var rootNodeId string
+    var rootNode *LinkedAdjacencyTreeNode
 
     // Insert all
     for _, rawNode := range rawAdjacencyNodes {
@@ -66,6 +68,7 @@ func buildLinkedNodes(rawAdjacencyNodes []RawAdjacencyTreeNode) LinkedAdjacencyT
         if rawNode.ParentId != "null" {
             var childIndex, parentIndex int
 
+            // Find the matching parent and children (based on id = childIndex, parentId = parentIndex) in linkedAdjacencyNodesList
             for index, linkedNode := range linkedAdjacencyNodesList {
                 if linkedNode.Id == rawNode.Id {
                     childIndex = index
@@ -76,9 +79,18 @@ func buildLinkedNodes(rawAdjacencyNodes []RawAdjacencyTreeNode) LinkedAdjacencyT
                 }
             }
 
-            linkedAdjacencyNodesList[childIndex].Parent = &linkedAdjacencyNodesList[parentIndex]
+            linkedAdjacencyNodesList[parentIndex].Children = append(linkedAdjacencyNodesList[parentIndex].Children, &linkedAdjacencyNodesList[childIndex])
+        } else {
+            rootNodeId = rawNode.Id
         }
     }
 
-    return LinkedAdjacencyTreeNodes{Nodes: linkedAdjacencyNodesList}
+    // Get root node
+    for index, linkedNode := range linkedAdjacencyNodesList {
+        if linkedNode.Id == rootNodeId {
+            rootNode = &linkedAdjacencyNodesList[index]
+        }
+    }
+
+    return rootNode
 }

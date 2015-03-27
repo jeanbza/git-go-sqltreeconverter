@@ -30,26 +30,21 @@ func (a RawAdjacencyTreeNodes) equalTo(b RawAdjacencyTreeNodes) bool {
 
 type LinkedAdjacencyTreeNode struct {
     Id string
-    Parent *LinkedAdjacencyTreeNode
+    Children []*LinkedAdjacencyTreeNode
 }
 
-type LinkedAdjacencyTreeNodes struct {
-    Nodes []LinkedAdjacencyTreeNode
-}
-
-func (a LinkedAdjacencyTreeNodes) equalTo(b LinkedAdjacencyTreeNodes) bool {
-    if len(a.Nodes) != len(b.Nodes) {
+func (a LinkedAdjacencyTreeNode) equalTo(b LinkedAdjacencyTreeNode) bool {
+    if a.Id != b.Id {
         return false
     }
 
-    for index, elemA := range a.Nodes {
-        elemB := b.Nodes[index]
+    if len(a.Children) != len(b.Children) {
+        return false
+    }
 
-        if elemA.Id != elemB.Id {
-            return false
-        }
-
-        if elemA.Parent != nil && elemA.Parent.Id != elemB.Parent.Id {
+    for index, _ := range a.Children {
+        // Note: Order is considered
+        if !a.Children[index].equalTo(*b.Children[index]) {
             return false
         }
     }
@@ -58,13 +53,11 @@ func (a LinkedAdjacencyTreeNodes) equalTo(b LinkedAdjacencyTreeNodes) bool {
 }
 
 func (a LinkedAdjacencyTreeNode) String() string {
-    var parentId string
-
-    if a.Parent == nil {
-        parentId = "nil"
-    } else {
-        parentId = a.Parent.Id
+    var childrenIds []string
+    
+    for _, child := range a.Children {
+        childrenIds = append(childrenIds, child.String())
     }
 
-    return fmt.Sprintf("{id: %s, parentId: %s}", a.Id, parentId)
+    return fmt.Sprintf("{id: %s, children: %s}", a.Id, childrenIds)
 }

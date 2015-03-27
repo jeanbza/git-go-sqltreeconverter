@@ -40,14 +40,16 @@ func TestBuildLinkedNodes(t *testing.T) {
         RawAdjacencyTreeNode{Id: "5", ParentId: "4"},
     }
 
-    elem0 := LinkedAdjacencyTreeNode{Id: "0"}
-    elem1 := LinkedAdjacencyTreeNode{Id: "1", Parent: &elem0}
-    elem2 := LinkedAdjacencyTreeNode{Id: "2", Parent: &elem0}
-    elem4 := LinkedAdjacencyTreeNode{Id: "4", Parent: &elem1}
-    elem3 := LinkedAdjacencyTreeNode{Id: "3", Parent: &elem4}
-    elem5 := LinkedAdjacencyTreeNode{Id: "5", Parent: &elem4}
+    elem3 := LinkedAdjacencyTreeNode{Id: "3"}
+    elem5 := LinkedAdjacencyTreeNode{Id: "5"}
+    elem4 := LinkedAdjacencyTreeNode{Id: "4", Children: []*LinkedAdjacencyTreeNode{&elem3, &elem5}}
+    
+    elem1 := LinkedAdjacencyTreeNode{Id: "1", Children: []*LinkedAdjacencyTreeNode{&elem4}}
+    elem2 := LinkedAdjacencyTreeNode{Id: "2"}
 
-    expectedOut := LinkedAdjacencyTreeNodes{Nodes: []LinkedAdjacencyTreeNode{elem0, elem1, elem2, elem3, elem4, elem5}}
+    elem0 := LinkedAdjacencyTreeNode{Id: "0", Children: []*LinkedAdjacencyTreeNode{&elem1, &elem2}}
+
+    expectedOut := elem0
 
     actualOut := buildLinkedNodes(in)
 
