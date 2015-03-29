@@ -102,7 +102,7 @@ func buildLinkedNodes(rawAdjacencyNodes []RawAdjacencyTreeNode) (root *LinkedAdj
 
 func outputSql(root *LinkedAdjacencyTreeNode, outputFile string) {
     var outputSql string
-    serializedNodes := serialize(root)
+    serializedNodes := root.serialize()
 
     for _, node := range serializedNodes {
         outputSql += fmt.Sprintf("update foo set left = %d, right = %d where id = %s;\n", node.Left, node.Right, node.Id)
@@ -113,21 +113,5 @@ func outputSql(root *LinkedAdjacencyTreeNode, outputFile string) {
 
     if err != nil {
         fmt.Println(err)
-    }
-}
-
-func serialize(root *LinkedAdjacencyTreeNode) []LinkedAdjacencyTreeNode {
-    serializedNodes := LinkedAdjacencyTreeNodes{Nodes: []LinkedAdjacencyTreeNode{}}
-
-    collect(root, &serializedNodes)
-
-    return serializedNodes.Nodes
-}
-
-func collect(node *LinkedAdjacencyTreeNode, serializedNodes *LinkedAdjacencyTreeNodes) {
-    serializedNodes.Nodes = append(serializedNodes.Nodes, *node)
-
-    for childIndex := range node.Children {
-        collect(node.Children[childIndex], serializedNodes)
     }
 }

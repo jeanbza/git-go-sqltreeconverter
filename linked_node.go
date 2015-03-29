@@ -60,3 +60,19 @@ func (node *LinkedAdjacencyTreeNode) attachLeftsAndRightsRecursively(index int) 
 
     return index
 }
+
+func (root *LinkedAdjacencyTreeNode) serialize() []LinkedAdjacencyTreeNode {
+    serializedNodes := LinkedAdjacencyTreeNodes{Nodes: []LinkedAdjacencyTreeNode{}}
+
+    root.collect(&serializedNodes)
+
+    return serializedNodes.Nodes
+}
+
+func (node *LinkedAdjacencyTreeNode) collect(serializedNodes *LinkedAdjacencyTreeNodes) {
+    serializedNodes.Nodes = append(serializedNodes.Nodes, *node)
+
+    for childIndex := range node.Children {
+        node.Children[childIndex].collect(serializedNodes)
+    }
+}
