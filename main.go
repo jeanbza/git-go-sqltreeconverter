@@ -133,9 +133,9 @@ func outputSql(root *LinkedAdjacencyTreeNode) {
 }
 
 func serialize(root *LinkedAdjacencyTreeNode) []LinkedAdjacencyTreeNode {
-    var serializedNodes *LinkedAdjacencyTreeNodes
+    serializedNodes := LinkedAdjacencyTreeNodes{Nodes: []LinkedAdjacencyTreeNode{}}
 
-    collect(root, serializedNodes)
+    collect(root, &serializedNodes)
 
     return serializedNodes.Nodes
 }
