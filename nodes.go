@@ -31,10 +31,11 @@ func (a RawAdjacencyTreeNodes) equalTo(b RawAdjacencyTreeNodes) bool {
 type LinkedAdjacencyTreeNode struct {
     Id string
     Children []*LinkedAdjacencyTreeNode
+    Left, Right int
 }
 
 func (a LinkedAdjacencyTreeNode) equalTo(b LinkedAdjacencyTreeNode) bool {
-    if a.Id != b.Id {
+    if a.Id != b.Id || a.Left != b.Left || a.Right != b.Right {
         return false
     }
 
@@ -59,5 +60,5 @@ func (a LinkedAdjacencyTreeNode) String() string {
         childrenIds = append(childrenIds, child.String())
     }
 
-    return fmt.Sprintf("{id: %s, children: %s}", a.Id, childrenIds)
+    return fmt.Sprintf("{id: %s, left: %d, right: %d, children: %s}", a.Id, a.Left, a.Right, childrenIds)
 }

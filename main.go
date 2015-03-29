@@ -94,3 +94,7 @@ func buildLinkedNodes(rawAdjacencyNodes []RawAdjacencyTreeNode) (root *LinkedAdj
 
     return rootNode
 }
+
+func attachLeftsAndRights(root LinkedAdjacencyTreeNode) LinkedAdjacencyTreeNode {
+    return root
+}
