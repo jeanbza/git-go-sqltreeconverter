@@ -108,8 +108,8 @@ func outputSql(root *LinkedAdjacencyTreeNode, outputFile string) {
         outputSql += fmt.Sprintf("update foo set left = %d, right = %d where id = %s;\n", node.Left, node.Right, node.Id)
     }
 
-    d1 := []byte(outputSql)
-    err := ioutil.WriteFile(outputFile, d1, 0644)
+    data := []byte(outputSql)
+    err := ioutil.WriteFile(outputFile, data, 0644)
 
     if err != nil {
         fmt.Println(err)
