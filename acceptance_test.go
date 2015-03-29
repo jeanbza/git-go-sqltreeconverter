@@ -26,14 +26,15 @@ update foo set left = 2, right = 9 where id = 1;
 update foo set left = 3, right = 8 where id = 4;
 update foo set left = 4, right = 5 where id = 3;
 update foo set left = 6, right = 7 where id = 5;
-update foo set left = 10, right = 11 where id = 2;`
+update foo set left = 10, right = 11 where id = 2;
+`
 
     run(inputFileName, outputFileName)
 
     actualFileContents := readOutputFile(outputFileName)
 
     if actualFileContents != expectedFileContents {
-        t.Errorf("expected %v,\n\ngot %v", expectedFileContents, actualFileContents)
+        t.Errorf("expected:\n%v\n\ngot:\n%v", expectedFileContents, actualFileContents)
     }
 }
 

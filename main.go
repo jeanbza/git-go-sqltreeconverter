@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-    run("test_data.sql", "output_with_lefts_and_rights.sql")
+    run("oneRootAcceptanceTestInput.sql", "output_with_lefts_and_rights.sql")
 }
 
 func run(inputFile, outputFile string ) {
