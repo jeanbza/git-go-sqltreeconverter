@@ -34,6 +34,10 @@ type LinkedAdjacencyTreeNode struct {
     Left, Right int
 }
 
+type LinkedAdjacencyTreeNodes struct {
+    Nodes []LinkedAdjacencyTreeNode
+}
+
 func (a LinkedAdjacencyTreeNode) equalTo(b LinkedAdjacencyTreeNode) bool {
     if a.Id != b.Id || a.Left != b.Left || a.Right != b.Right {
         return false

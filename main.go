@@ -5,12 +5,15 @@ import (
     "fmt"
     "bufio"
     "regexp"
+    "io/ioutil"
 )
 
 func main() {
     fileText := getFileText("test_data.sql")
     rawAdjacencyNodes := extractNodes(fileText)
     linkedAdjacencyNodes := buildLinkedNodes(rawAdjacencyNodes.Nodes)
+    attachLeftsAndRights(linkedAdjacencyNodes)
+    outputSql(linkedAdjacencyNodes)
 
     fmt.Println(linkedAdjacencyNodes)
 }
@@ -113,15 +116,34 @@ func attachLeftsAndRightsRecursively(node *LinkedAdjacencyTreeNode, index int) i
     return index
 }
 
+func outputSql(root *LinkedAdjacencyTreeNode) {
+    var outputSql string
+    serializedNodes := serialize(root)
 
+    for _, node := range serializedNodes {
+        outputSql += fmt.Sprintf("update foo set left = %d, right = %d where id = %s;\n", node.Left, node.Right, node.Id)
+    }
 
+    d1 := []byte(outputSql)
+    err := ioutil.WriteFile("output_with_lefts_and_rights.sql", d1, 0644)
 
+    if err != nil {
+        fmt.Println(err)
+    }
+}
 
+func serialize(root *LinkedAdjacencyTreeNode) []LinkedAdjacencyTreeNode {
+    var serializedNodes *LinkedAdjacencyTreeNodes
 
+    collect(root, serializedNodes)
 
+    return serializedNodes.Nodes
+}
 
+func collect(node *LinkedAdjacencyTreeNode, serializedNodes *LinkedAdjacencyTreeNodes) {
+    serializedNodes.Nodes = append(serializedNodes.Nodes, *node)
 
-
-
-
-
+    for childIndex := range node.Children {
+        collect(node.Children[childIndex], serializedNodes)
+    }
+}
