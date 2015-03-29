@@ -9,13 +9,15 @@ import (
 )
 
 func main() {
-    fileText := getFileText("test_data.sql")
+    run("test_data.sql", "output_with_lefts_and_rights.sql")
+}
+
+func run(inputFile, outputFile string ) {
+    fileText := getFileText(inputFile)
     rawAdjacencyNodes := extractNodes(fileText)
     linkedAdjacencyNodes := buildLinkedNodes(rawAdjacencyNodes.Nodes)
     attachLeftsAndRights(linkedAdjacencyNodes)
-    outputSql(linkedAdjacencyNodes)
-
-    fmt.Println(linkedAdjacencyNodes)
+    outputSql(linkedAdjacencyNodes, outputFile)
 }
 
 func getFileText(filePath string) string {
@@ -116,7 +118,7 @@ func attachLeftsAndRightsRecursively(node *LinkedAdjacencyTreeNode, index int) i
     return index
 }
 
-func outputSql(root *LinkedAdjacencyTreeNode) {
+func outputSql(root *LinkedAdjacencyTreeNode, outputFile string) {
     var outputSql string
     serializedNodes := serialize(root)
 
@@ -125,7 +127,7 @@ func outputSql(root *LinkedAdjacencyTreeNode) {
     }
 
     d1 := []byte(outputSql)
-    err := ioutil.WriteFile("output_with_lefts_and_rights.sql", d1, 0644)
+    err := ioutil.WriteFile(outputFile, d1, 0644)
 
     if err != nil {
         fmt.Println(err)
