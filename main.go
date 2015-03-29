@@ -95,6 +95,33 @@ func buildLinkedNodes(rawAdjacencyNodes []RawAdjacencyTreeNode) (root *LinkedAdj
     return rootNode
 }
 
-func attachLeftsAndRights(root LinkedAdjacencyTreeNode) LinkedAdjacencyTreeNode {
-    return root
+func attachLeftsAndRights(root *LinkedAdjacencyTreeNode) {
+    attachLeftsAndRightsRecursively(root, 0)
 }
+
+func attachLeftsAndRightsRecursively(node *LinkedAdjacencyTreeNode, index int) int {
+    index++
+    node.Left = index
+
+    for childIndex := range node.Children {
+        index = attachLeftsAndRightsRecursively(node.Children[childIndex], index)
+    }
+
+    index++
+    node.Right = index
+
+    return index
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -95,9 +95,9 @@ func TestAttachedLeftsAndRights(t *testing.T) {
 
     expectedOut := outElem0
 
-    actualOut := attachLeftsAndRights(in)
+    attachLeftsAndRights(&in)
 
-    if !actualOut.equalTo(expectedOut) {
-        t.Errorf("Expected %v, got %v", expectedOut, actualOut)
+    if !in.equalTo(expectedOut) {
+        t.Errorf("Expected %v, got %v", expectedOut, in)
     }
 }
