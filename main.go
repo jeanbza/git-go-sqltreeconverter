@@ -102,30 +102,6 @@ func buildLinkedNodes(rawAdjacencyNodes []RawAdjacencyTreeNode) (roots []LinkedA
     return rootNodes
 }
 
-func attachLeftsAndRights(roots []LinkedAdjacencyTreeNode) []LinkedAdjacencyTreeNode {
-    currentLeft := 0
-
-    for index := range roots {
-        currentLeft = roots[index].attachLeftsAndRightsRecursively(currentLeft)
-    }
-
-    return roots
-}
-
-func (node *LinkedAdjacencyTreeNode) attachLeftsAndRightsRecursively(index int) int {
-    index++
-    node.Left = index
-
-    for childIndex := range node.Children {
-        index = node.Children[childIndex].attachLeftsAndRightsRecursively(index)
-    }
-
-    index++
-    node.Right = index
-
-    return index
-}
-
 func outputSql(root *LinkedAdjacencyTreeNode, outputFile string) {
     var outputSql string
     serializedNodes := root.serialize()
