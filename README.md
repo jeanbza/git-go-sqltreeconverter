@@ -1,11 +1,15 @@
 # git-go-sqltreeconverter
-Convert adjacency model trees into nested set trees.
+Convert adjacency model (id, parent_id) trees into nested set (id, left, right) trees.
 
 [![Build Status](https://travis-ci.org/jadekler/git-go-sqltreeconverter.svg)](https://travis-ci.org/jadekler/git-go-sqltreeconverter)
 
 --
 
-- To run directly: `go run main.go raw_node.go linked_node.go --input test_input.sql --output test_output.sql`
+Example running: 
+
+1. `mysql -uroot -e 'select id, parent_id from some_db.some_table > boom.sql`
+1. `go run main.go raw_node.go linked_node.go --input boom.sql --output bam.sql --regex '(\d+)\t(\d+)' --target 'some_db.some_table'`
+1. `mysql -uroot < bam.sql`
 
 ### Flags
 
