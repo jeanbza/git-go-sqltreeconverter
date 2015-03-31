@@ -5,6 +5,7 @@ import (
     "strings"
     "testing"
     "io/ioutil"
+    "os"
 )
 
 /* 
@@ -33,6 +34,9 @@ update foo set left = 10, right = 11 where id = 2;
     run(inputFileName, outputFileName)
 
     actualFileContents := readOutputFile(outputFileName)
+
+    os.Remove(inputFileName)
+    os.Remove(outputFileName)
 
     if actualFileContents != expectedFileContents {
         t.Errorf("expected:\n%v\n\ngot:\n%v", expectedFileContents, actualFileContents)
@@ -81,6 +85,9 @@ update foo set left = 19, right = 20 where id = 6;
     run(inputFileName, outputFileName)
 
     actualFileContents := readOutputFile(outputFileName)
+
+    os.Remove(inputFileName)
+    os.Remove(outputFileName)
 
     if actualFileContents != expectedFileContents {
         t.Errorf("expected:\n%v\n\ngot:\n%v", expectedFileContents, actualFileContents)

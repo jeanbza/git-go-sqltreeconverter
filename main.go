@@ -15,9 +15,10 @@ func main() {
 func run(inputFile, outputFile string ) {
     fileText := getFileText(inputFile)
     rawAdjacencyNodes := extractNodes(fileText)
-    linkedAdjacencyNodes := buildLinkedNodes(rawAdjacencyNodes.Nodes)
-    linkedAdjacencyNodes.attachLeftsAndRights()
-    outputSql(linkedAdjacencyNodes, outputFile)
+    buildLinkedNodes(rawAdjacencyNodes.Nodes)
+    // linkedAdjacencyNodes := buildLinkedNodes(rawAdjacencyNodes.Nodes)
+    // linkedAdjacencyNodes.attachLeftsAndRights()
+    // outputSql(linkedAdjacencyNodes, outputFile)
 }
 
 func getFileText(filePath string) string {
@@ -58,10 +59,10 @@ func extractNodes(fileText string) RawAdjacencyTreeNodes {
     return RawAdjacencyTreeNodes{Nodes: adjacencyNodes}
 }
 
-func buildLinkedNodes(rawAdjacencyNodes []RawAdjacencyTreeNode) (root *LinkedAdjacencyTreeNode) {
+func buildLinkedNodes(rawAdjacencyNodes []RawAdjacencyTreeNode) (roots []LinkedAdjacencyTreeNode) {
     var linkedAdjacencyNodesList []LinkedAdjacencyTreeNode
     var rootNodeId string
-    var rootNode *LinkedAdjacencyTreeNode
+    var rootNodes []LinkedAdjacencyTreeNode
 
     // Insert all
     for _, rawNode := range rawAdjacencyNodes {
@@ -93,11 +94,11 @@ func buildLinkedNodes(rawAdjacencyNodes []RawAdjacencyTreeNode) (root *LinkedAdj
     // Get root node
     for index, linkedNode := range linkedAdjacencyNodesList {
         if linkedNode.Id == rootNodeId {
-            rootNode = &linkedAdjacencyNodesList[index]
+            rootNodes = append(rootNodes, linkedAdjacencyNodesList[index])
         }
     }
 
-    return rootNode
+    return rootNodes
 }
 
 func outputSql(root *LinkedAdjacencyTreeNode, outputFile string) {
