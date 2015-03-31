@@ -81,7 +81,7 @@ func TestBuildLinkedNodes_MultipleRoots(t *testing.T) {
     elem1 := LinkedAdjacencyTreeNode{Id: "1"}
 
     elem2 := LinkedAdjacencyTreeNode{Id: "2"}
-    elem0 := LinkedAdjacencyTreeNode{Id: "0", Children: []*LinkedAdjacencyTreeNode{&elem1, &elem2}}
+    elem0 := LinkedAdjacencyTreeNode{Id: "0", Children: []*LinkedAdjacencyTreeNode{&elem2}}
 
     expectedOut := []LinkedAdjacencyTreeNode{elem0, elem1, elem3}
 
