@@ -3,13 +3,27 @@ package main
 import (
     "os"
     "fmt"
+    "flag"
     "bufio"
     "regexp"
     "io/ioutil"
 )
 
 func main() {
-    run("oneRootAcceptanceTestInput.sql", "output_with_lefts_and_rights.sql")
+    inputFile := flag.String("input", "", "Specify a .sql input file")
+    outputFile := flag.String("output", "", "Specify a .sql output file")
+
+    flag.Parse()
+
+    if *inputFile == "" {
+        fmt.Println("Please provide an input file with the --input option")
+    }
+
+    if *outputFile == "" {
+        fmt.Println("Please provide an output file with the --input option")
+    }
+
+    run(*inputFile, *outputFile)
 }
 
 func run(inputFile, outputFile string ) {
