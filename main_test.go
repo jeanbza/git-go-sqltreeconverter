@@ -161,7 +161,7 @@ func TestAttachedLeftsAndRights_MultipleRoots(t *testing.T) {
 
     inElem3 := LinkedAdjacencyTreeNode{Id: "3"}
     inElem5 := LinkedAdjacencyTreeNode{Id: "5"}
-    inElem9 := LinkedAdjacencyTreeNode{Id: "4", Children: []*LinkedAdjacencyTreeNode{&inElem3, &inElem5}}
+    inElem9 := LinkedAdjacencyTreeNode{Id: "9", Children: []*LinkedAdjacencyTreeNode{&inElem3, &inElem5}}
     
     inElem1 := LinkedAdjacencyTreeNode{Id: "1", Children: []*LinkedAdjacencyTreeNode{&inElem9}}
     inElem2 := LinkedAdjacencyTreeNode{Id: "2"}
@@ -216,7 +216,7 @@ func TestAttachedLeftsAndRights_MultipleRoots(t *testing.T) {
     } else {
         for index := range actualOut {
             if !actualOut[index].equalTo(expectedOut[index]) {
-                t.Errorf("Expected:\n%v\nGot:\n%v", expectedOut, actualOut)
+                t.Errorf("Problem at index %d.\nIndex expected:\n%v\nIndex got:\n%v\nFull expected:\n%v\nFull got:\n%v", index, expectedOut[index], actualOut[index], expectedOut, actualOut)
                 break
             }
         }

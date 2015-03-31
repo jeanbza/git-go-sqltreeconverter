@@ -103,7 +103,11 @@ func buildLinkedNodes(rawAdjacencyNodes []RawAdjacencyTreeNode) (roots []LinkedA
 }
 
 func attachLeftsAndRights(roots []LinkedAdjacencyTreeNode) []LinkedAdjacencyTreeNode {
-    roots[0].attachLeftsAndRightsRecursively(0)
+    currentLeft := 0
+
+    for index := range roots {
+        currentLeft = roots[index].attachLeftsAndRightsRecursively(currentLeft)
+    }
 
     return roots
 }
