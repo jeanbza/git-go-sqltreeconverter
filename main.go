@@ -9,18 +9,25 @@ import (
     "io/ioutil"
 )
 
-func main() {
-    inputFile := flag.String("input", "", "Specify a .sql input file")
-    outputFile := flag.String("output", "", "Specify a .sql output file")
+var inputFile = flag.String("input", "", "Specify a .sql input file")
+var outputFile = flag.String("output", "", "Specify a .sql output file")
+var target = flag.String("target", "madeUpDb.madeUpTable", "Specify the table to be altered")
 
+func main() {
     flag.Parse()
 
     if *inputFile == "" {
         fmt.Println("Please provide an input file with the --input option")
+        os.Exit(1)
     }
 
     if *outputFile == "" {
-        fmt.Println("Please provide an output file with the --input option")
+        fmt.Println("Please provide an output file with the --output option")
+        os.Exit(1)
+    }
+
+    if *target == "madeUpDb.madeUpTable" {
+        fmt.Println("No target database / table selected. Using madeUpDb.madeUpTable. Specify with --target")
     }
 
     run(*inputFile, *outputFile)
@@ -123,7 +130,7 @@ func outputSql(roots []LinkedAdjacencyTreeNode, outputFile string) {
         serializedNodes := roots[index].serialize()
 
         for _, node := range serializedNodes {
-            outputSql += fmt.Sprintf("update foo set left = %d, right = %d where id = %s;\n", node.Left, node.Right, node.Id)
+            outputSql += fmt.Sprintf("update %s set left = %d, right = %d where id = %s;\n", *target, node.Left, node.Right, node.Id)
         }
     }
 
