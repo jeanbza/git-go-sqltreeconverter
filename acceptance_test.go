@@ -21,7 +21,15 @@ func TestOneRootAcceptance(t *testing.T) {
     inputFileName := "oneRootAcceptanceTestInput.sql"
     outputFileName := "oneRootAcceptanceTestOutput.sql"
 
-    createInputFile(`INSERT INTO 'foo' VALUES (0,'name 0',null),(1,'name 1',0),(2,'name 2',0),(3,'name 3',4),(4,'name 4',1),(5,'name 5',4)`, inputFileName)
+    createInputFile(strings.TrimSpace(`
+        INSERT INTO 'foo' VALUES
+        (0,null),
+        (1,0),
+        (2,0),
+        (3,4),
+        (4,1),
+        (5,4)
+    `), inputFileName)
 
     expectedFileContents := `update foo set left = 1, right = 12 where id = 0;
 update foo set left = 2, right = 9 where id = 1;
@@ -58,16 +66,16 @@ func TestThreeRootAcceptance(t *testing.T) {
 
     createInputFile(strings.TrimSpace(`
         INSERT INTO 'foo' VALUES
-        (0,'name 0',null),
-        (1,'name 1',0),
-        (2,'name 2',0),
-        (3,'name 3',9),
-        (9,'name 9',1),
-        (5,'name 5',9),
-        (7,'name 7',null),
-        (4,'name 4',7),
-        (8,'name 8',7),
-        (6,'name 6',null)
+        (0,null),
+        (1,0),
+        (2,0),
+        (3,9),
+        (9,1),
+        (5,9),
+        (7,null),
+        (4,7),
+        (8,7),
+        (6,null)
     `), inputFileName)
 
     expectedFileContents := `update foo set left = 1, right = 12 where id = 0;

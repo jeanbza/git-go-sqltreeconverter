@@ -43,7 +43,7 @@ func getFileText(filePath string) string {
 }
 
 func extractNodes(fileText string) RawAdjacencyTreeNodes {
-    r := regexp.MustCompile(`(\d+),'\w+ \w+',(\w+)`)
+    r := regexp.MustCompile(`(\w+),(\w+)`)
     nodeStrings := r.FindAllStringSubmatch(fileText, -1)
 
     var adjacencyNodes []RawAdjacencyTreeNode
