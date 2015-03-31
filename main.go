@@ -16,6 +16,12 @@ var outputFile = flag.String("output", "", "Specify a .sql output file")
 var defaultTarget = "madeUpDb.madeUpTable" 
 var target = flag.String("target", defaultTarget, "Specify the table to be altered")
 
+var defaultLeftColumnName = "left" 
+var leftColumnName = flag.String("leftName", defaultLeftColumnName, "Specify the name of the left column")
+
+var defaultRightColumnName = "right" 
+var rightColumnName = flag.String("rightName", defaultRightColumnName, "Specify the name of the right column")
+
 var defaultRegex = `(\w+),(\w+)`
 var regex = flag.String("regex", defaultRegex, "Specify the regex to parse the input file with. REQUIRED: the first and second subgroups must be id and parent_id, respectively")
 
@@ -33,11 +39,19 @@ func main() {
     }
 
     if *target == defaultTarget {
-        fmt.Printf("No target database / table selected. Using %v. Specify with --target\n", *target)
+        fmt.Printf("Using default '%v' as database/table name. Specify with --target\n", *target)
+    }
+
+    if *leftColumnName == defaultLeftColumnName {
+        fmt.Printf("Using default '%v' as left column name. Specify with --leftName\n", *leftColumnName)
+    }
+
+    if *rightColumnName == defaultRightColumnName {
+        fmt.Printf("Using default '%v' as right column name. Specify with --rightName\n", *rightColumnName)
     }
 
     if *regex == defaultRegex {
-        fmt.Printf("No regex specified. Using default %v\n", *regex)
+        fmt.Printf("Using default '%v' as regex for parsing input file. Specify with --regex\n", *regex)
     }
 
     run(*inputFile, *outputFile)
@@ -140,7 +154,7 @@ func outputSql(roots []LinkedAdjacencyTreeNode, outputFile string) {
         serializedNodes := roots[index].serialize()
 
         for _, node := range serializedNodes {
-            outputSql += fmt.Sprintf("update %s set left = %d, right = %d where id = %s;\n", *target, node.Left, node.Right, node.Id)
+            outputSql += fmt.Sprintf("update %s set %s = %d, %s = %d where id = %s;\n", *target, *leftColumnName, node.Left, *rightColumnName, node.Right, node.Id)
         }
     }
 
