@@ -29,4 +29,4 @@ Example running:
 ### Notes
 
 - This app is case insensitive
-- This app can handle multiple 'root' nodes. These are tree as a discrete set - roots might look like `id:1 lft:1 rgt:18`, `id:6 lft:19 rgt:20`, `id:7 lft:21 rgt:26` for instance
+- This app can handle multiple 'root' nodes. These are treated as discrete sets - roots might look like `id:1 lft:1 rgt:18`, `id:6 lft:19 rgt:20`, `id:7 lft:21 rgt:26` for instance
