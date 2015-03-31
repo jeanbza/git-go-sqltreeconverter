@@ -17,7 +17,7 @@ func run(inputFile, outputFile string ) {
     rawAdjacencyNodes := extractNodes(fileText)
     linkedAdjacencyNodes := buildLinkedNodes(rawAdjacencyNodes.Nodes)
     attachLeftsAndRights(linkedAdjacencyNodes)
-    // outputSql(linkedAdjacencyNodes, outputFile)
+    outputSql(linkedAdjacencyNodes, outputFile)
 }
 
 func getFileText(filePath string) string {
@@ -102,12 +102,15 @@ func buildLinkedNodes(rawAdjacencyNodes []RawAdjacencyTreeNode) (roots []LinkedA
     return rootNodes
 }
 
-func outputSql(root *LinkedAdjacencyTreeNode, outputFile string) {
+func outputSql(roots []LinkedAdjacencyTreeNode, outputFile string) {
     var outputSql string
-    serializedNodes := root.serialize()
 
-    for _, node := range serializedNodes {
-        outputSql += fmt.Sprintf("update foo set left = %d, right = %d where id = %s;\n", node.Left, node.Right, node.Id)
+    for index := range roots {
+        serializedNodes := roots[index].serialize()
+
+        for _, node := range serializedNodes {
+            outputSql += fmt.Sprintf("update foo set left = %d, right = %d where id = %s;\n", node.Left, node.Right, node.Id)
+        }
     }
 
     data := []byte(outputSql)
