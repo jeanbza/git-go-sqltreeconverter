@@ -5,7 +5,13 @@ Convert adjacency model (id, parent_id) trees into nested set (id, left, right) 
 
 --
 
-Example running: 
+### Examples
+
+Simple (pre-built binary):
+
+1. `./git-go-sqlconverter --input in.sql --output out.sql`
+
+Fuller (un-built, compile and run):
 
 1. `mysql -uroot -e 'select id, parent_id from some_db.some_table > boom.sql`
 1. `go run main.go raw_node.go linked_node.go --input boom.sql --output bam.sql --regex '(\d+)\t(\d+)' --target 'some_db.some_table'` *
