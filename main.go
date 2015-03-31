@@ -5,6 +5,7 @@ import (
     "fmt"
     "flag"
     "bufio"
+    "strings"
     "regexp"
     "io/ioutil"
 )
@@ -66,7 +67,7 @@ func getFileText(filePath string) string {
     var fileText string
 
     for scanner.Scan() {
-        fileText += scanner.Text() + "\n"
+        fileText += strings.ToLower(scanner.Text()) + "\n"
     }
 
     return fileText

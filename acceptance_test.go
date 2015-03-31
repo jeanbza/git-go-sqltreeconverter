@@ -102,6 +102,32 @@ update madeUpDb.madeUpTable set left = 19, right = 20 where id = 6;
     }
 }
 
+func TestAcceptance_CaseSensitivity(t *testing.T) {
+    inputFileName := "acceptanceTestCaseSensitivityInput.sql"
+    outputFileName := "acceptanceTestCaseSensitivityOutput.sql"
+
+    createInputFile(strings.TrimSpace(`
+        insert into 'madeUpDb.madeUpTable' VALUES
+        (0,NULL),
+        (1,0)
+    `), inputFileName)
+
+    expectedFileContents := `update madeUpDb.madeUpTable set left = 1, right = 4 where id = 0;
+update madeUpDb.madeUpTable set left = 2, right = 3 where id = 1;
+`
+
+    run(inputFileName, outputFileName)
+
+    actualFileContents := readOutputFile(outputFileName)
+
+    os.Remove(inputFileName)
+    os.Remove(outputFileName)
+
+    if actualFileContents != expectedFileContents {
+        t.Errorf("expected:\n%v\n\ngot:\n%v", expectedFileContents, actualFileContents)
+    }
+}
+
 func createInputFile(content, fileName string) {
     data := []byte(content)
     err := ioutil.WriteFile(fileName, data, 0644)
