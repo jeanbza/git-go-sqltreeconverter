@@ -79,6 +79,34 @@ func TestBuildLinkedNodes(t *testing.T) {
     }
 }
 
+func TestBuildLinkedNodes_ParentIdSameAsId(t *testing.T) {
+    in := []RawAdjacencyTreeNode{
+        RawAdjacencyTreeNode{Id: "0", ParentId: "0"},
+        RawAdjacencyTreeNode{Id: "1", ParentId: "0"},
+        RawAdjacencyTreeNode{Id: "2", ParentId: "0"},
+    }
+    
+    elem1 := LinkedAdjacencyTreeNode{Id: "1"}
+    elem2 := LinkedAdjacencyTreeNode{Id: "2"}
+
+    elem0 := LinkedAdjacencyTreeNode{Id: "0", Children: []*LinkedAdjacencyTreeNode{&elem1, &elem2}}
+
+    expectedOut := []LinkedAdjacencyTreeNode{elem0}
+
+    actualOut := buildLinkedNodes(in)
+
+    if len(actualOut) != len(expectedOut) {
+        t.Errorf("Expected:\n%v\nGot:\n%v", expectedOut, actualOut)
+    } else {
+        for index := range actualOut {
+            if !actualOut[index].equalTo(expectedOut[index]) {
+                t.Errorf("Expected:\n%v\nGot:\n%v", expectedOut, actualOut)
+                break
+            }
+        }
+    }
+}
+
 func TestBuildLinkedNodes_MultipleRoots(t *testing.T) {
     in := []RawAdjacencyTreeNode{
         RawAdjacencyTreeNode{Id: "0", ParentId: "null"},

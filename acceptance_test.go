@@ -22,7 +22,7 @@ func TestOneRootAcceptance(t *testing.T) {
     outputFileName := "oneRootAcceptanceTestOutput.sql"
 
     createInputFile(strings.TrimSpace(`
-        INSERT INTO 'foo' VALUES
+        INSERT INTO 'madeUpDb.madeUpTable' VALUES
         (0,null),
         (1,0),
         (2,0),
@@ -31,12 +31,12 @@ func TestOneRootAcceptance(t *testing.T) {
         (5,4)
     `), inputFileName)
 
-    expectedFileContents := `update foo set left = 1, right = 12 where id = 0;
-update foo set left = 2, right = 9 where id = 1;
-update foo set left = 3, right = 8 where id = 4;
-update foo set left = 4, right = 5 where id = 3;
-update foo set left = 6, right = 7 where id = 5;
-update foo set left = 10, right = 11 where id = 2;
+    expectedFileContents := `update madeUpDb.madeUpTable set left = 1, right = 12 where id = 0;
+update madeUpDb.madeUpTable set left = 2, right = 9 where id = 1;
+update madeUpDb.madeUpTable set left = 3, right = 8 where id = 4;
+update madeUpDb.madeUpTable set left = 4, right = 5 where id = 3;
+update madeUpDb.madeUpTable set left = 6, right = 7 where id = 5;
+update madeUpDb.madeUpTable set left = 10, right = 11 where id = 2;
 `
 
     run(inputFileName, outputFileName)
@@ -65,7 +65,7 @@ func TestThreeRootAcceptance(t *testing.T) {
     outputFileName := "threeRootAcceptanceTestOutput.sql"
 
     createInputFile(strings.TrimSpace(`
-        INSERT INTO 'foo' VALUES
+        INSERT INTO 'madeUpDb.madeUpTable' VALUES
         (0,null),
         (1,0),
         (2,0),
@@ -78,16 +78,16 @@ func TestThreeRootAcceptance(t *testing.T) {
         (6,null)
     `), inputFileName)
 
-    expectedFileContents := `update foo set left = 1, right = 12 where id = 0;
-update foo set left = 2, right = 9 where id = 1;
-update foo set left = 3, right = 8 where id = 9;
-update foo set left = 4, right = 5 where id = 3;
-update foo set left = 6, right = 7 where id = 5;
-update foo set left = 10, right = 11 where id = 2;
-update foo set left = 13, right = 18 where id = 7;
-update foo set left = 14, right = 15 where id = 4;
-update foo set left = 16, right = 17 where id = 8;
-update foo set left = 19, right = 20 where id = 6;
+    expectedFileContents := `update madeUpDb.madeUpTable set left = 1, right = 12 where id = 0;
+update madeUpDb.madeUpTable set left = 2, right = 9 where id = 1;
+update madeUpDb.madeUpTable set left = 3, right = 8 where id = 9;
+update madeUpDb.madeUpTable set left = 4, right = 5 where id = 3;
+update madeUpDb.madeUpTable set left = 6, right = 7 where id = 5;
+update madeUpDb.madeUpTable set left = 10, right = 11 where id = 2;
+update madeUpDb.madeUpTable set left = 13, right = 18 where id = 7;
+update madeUpDb.madeUpTable set left = 14, right = 15 where id = 4;
+update madeUpDb.madeUpTable set left = 16, right = 17 where id = 8;
+update madeUpDb.madeUpTable set left = 19, right = 20 where id = 6;
 `
 
     run(inputFileName, outputFileName)

@@ -11,7 +11,12 @@ import (
 
 var inputFile = flag.String("input", "", "Specify a .sql input file")
 var outputFile = flag.String("output", "", "Specify a .sql output file")
-var target = flag.String("target", "madeUpDb.madeUpTable", "Specify the table to be altered")
+
+var defaultTarget = "madeUpDb.madeUpTable" 
+var target = flag.String("target", defaultTarget, "Specify the table to be altered")
+
+var defaultRegex = `(\w+),(\w+)`
+var regex = flag.String("regex", defaultRegex, "Specify the regex to parse the input file with. REQUIRED: the first and second subgroups must be id and parent_id, respectively")
 
 func main() {
     flag.Parse()
@@ -26,8 +31,12 @@ func main() {
         os.Exit(1)
     }
 
-    if *target == "madeUpDb.madeUpTable" {
-        fmt.Println("No target database / table selected. Using madeUpDb.madeUpTable. Specify with --target")
+    if *target == defaultTarget {
+        fmt.Printf("No target database / table selected. Using %v. Specify with --target\n", *target)
+    }
+
+    if *regex == defaultRegex {
+        fmt.Printf("No regex specified. Using default %v\n", *regex)
     }
 
     run(*inputFile, *outputFile)
@@ -57,14 +66,14 @@ func getFileText(filePath string) string {
     var fileText string
 
     for scanner.Scan() {
-        fileText += scanner.Text()
+        fileText += scanner.Text() + "\n"
     }
 
     return fileText
 }
 
 func extractNodes(fileText string) RawAdjacencyTreeNodes {
-    r := regexp.MustCompile(`(\w+),(\w+)`)
+    r := regexp.MustCompile(*regex)
     nodeStrings := r.FindAllStringSubmatch(fileText, -1)
 
     var adjacencyNodes []RawAdjacencyTreeNode
@@ -91,7 +100,7 @@ func buildLinkedNodes(rawAdjacencyNodes []RawAdjacencyTreeNode) (roots []LinkedA
 
     // Link
     for _, rawNode := range rawAdjacencyNodes {
-        if rawNode.ParentId != "null" {
+        if !rawNode.isRoot() {
             var childIndex, parentIndex int
 
             // Find the matching parent and children (based on id = childIndex, parentId = parentIndex) in linkedAdjacencyNodesList
