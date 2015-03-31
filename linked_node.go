@@ -43,24 +43,6 @@ func (a LinkedAdjacencyTreeNode) String() string {
     return fmt.Sprintf("{id: %s, left: %d, right: %d, children: %s}", a.Id, a.Left, a.Right, childrenIds)
 }
 
-func (root *LinkedAdjacencyTreeNode) attachLeftsAndRights() {
-    root.attachLeftsAndRightsRecursively(0)
-}
-
-func (node *LinkedAdjacencyTreeNode) attachLeftsAndRightsRecursively(index int) int {
-    index++
-    node.Left = index
-
-    for childIndex := range node.Children {
-        index = node.Children[childIndex].attachLeftsAndRightsRecursively(index)
-    }
-
-    index++
-    node.Right = index
-
-    return index
-}
-
 func (root *LinkedAdjacencyTreeNode) serialize() []LinkedAdjacencyTreeNode {
     serializedNodes := LinkedAdjacencyTreeNodes{Nodes: []LinkedAdjacencyTreeNode{}}
 

@@ -15,9 +15,8 @@ func main() {
 func run(inputFile, outputFile string ) {
     fileText := getFileText(inputFile)
     rawAdjacencyNodes := extractNodes(fileText)
-    buildLinkedNodes(rawAdjacencyNodes.Nodes)
-    // linkedAdjacencyNodes := buildLinkedNodes(rawAdjacencyNodes.Nodes)
-    // linkedAdjacencyNodes.attachLeftsAndRights()
+    linkedAdjacencyNodes := buildLinkedNodes(rawAdjacencyNodes.Nodes)
+    attachLeftsAndRights(linkedAdjacencyNodes)
     // outputSql(linkedAdjacencyNodes, outputFile)
 }
 
@@ -101,6 +100,26 @@ func buildLinkedNodes(rawAdjacencyNodes []RawAdjacencyTreeNode) (roots []LinkedA
     }
 
     return rootNodes
+}
+
+func attachLeftsAndRights(roots []LinkedAdjacencyTreeNode) []LinkedAdjacencyTreeNode {
+    roots[0].attachLeftsAndRightsRecursively(0)
+
+    return roots
+}
+
+func (node *LinkedAdjacencyTreeNode) attachLeftsAndRightsRecursively(index int) int {
+    index++
+    node.Left = index
+
+    for childIndex := range node.Children {
+        index = node.Children[childIndex].attachLeftsAndRightsRecursively(index)
+    }
+
+    index++
+    node.Right = index
+
+    return index
 }
 
 func outputSql(root *LinkedAdjacencyTreeNode, outputFile string) {
