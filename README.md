@@ -8,8 +8,10 @@ Convert adjacency model (id, parent_id) trees into nested set (id, left, right) 
 Example running: 
 
 1. `mysql -uroot -e 'select id, parent_id from some_db.some_table > boom.sql`
-1. `go run main.go raw_node.go linked_node.go --input boom.sql --output bam.sql --regex '(\d+)\t(\d+)' --target 'some_db.some_table'`
+1. `go run main.go raw_node.go linked_node.go --input boom.sql --output bam.sql --regex '(\d+)\t(\d+)' --target 'some_db.some_table'` *
 1. `mysql -uroot < bam.sql`
+
+* Note: you will need to install go to run this program. See [installation documentation here](https://golang.org/doc/install)
 
 ### Flags
 
@@ -25,3 +27,4 @@ Example running:
 ### Notes
 
 - This app is case insensitive
+- This app can handle multiple 'root' nodes. These are tree as a discrete set - roots might look like `id:1 lft:1 rgt:18`, `id:6 lft:19 rgt:20`, `id:7 lft:21 rgt:26` for instance
