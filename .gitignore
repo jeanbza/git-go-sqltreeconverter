@@ -25,3 +25,8 @@ _testmain.go
 
 *output.sql
 *input.sql
+
+*.iml
+*.lock
+*.xml
+.idea*
