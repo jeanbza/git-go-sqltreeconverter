@@ -37,3 +37,6 @@ function getNodesFromDatabase() {
 
     return $members;
 }
+
+$members = getNodesFromDatabase();
+print_r($members);
