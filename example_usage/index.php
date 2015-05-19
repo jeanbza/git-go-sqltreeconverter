@@ -108,7 +108,6 @@ function getNodesFromDatabase() {
 
 $members_with_lefts_and_rights = getNodesFromDatabase();
 $members_with_parents_and_children = unserializeFromDatabase($members_with_lefts_and_rights);
-print_r($members_with_parents_and_children);
 
 ?>
 
