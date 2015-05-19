@@ -46,28 +46,36 @@ function unserializeFromDatabase($membersWithLeftsAndRights) {
     $node = null;
     $null = null;
 
-    while (0 < sizeof($membersWithLeftsAndRights)) {
-        // Pop the front item from the array
+    $foo = 0; // REMOVE THIS
+
+    while (0 < sizeof($membersWithLeftsAndRights) && $foo < 100) {
+        $foo++; // REMOVE THIS
+
         $member = $membersWithLeftsAndRights[0];
         $membersWithLeftsAndRights = array_slice($membersWithLeftsAndRights, 1, sizeof($membersWithLeftsAndRights));
 
         if ($root == null) {
-            // Root hasn't been set - let's do so now and move on immediately
-            $root = new MemberWithChildrenAndParents($member->id, $member->name, $member->name, $member->lft, $member->rgt, $null, $null);
+            $array = array();
+            $root = new MemberWithChildrenAndParents($member->id, $member->name, $member->name, $member->lft, $member->rgt, $null, $array);
             $node = $root;
         } else {
-            while ($member->lft > $node->rgt) {
-                // Current node is above stored node right - keep going up until
-                // we find the right parent. The right parent is the one whose left
-                // and right encompass this node's left and right
+            print_r($node);
+
+            // REMOVE THIS
+            if ($node->rgt == null) {
+                return;
+            }
+
+            // REMOVE NULLCHECK
+            while ($node != null && $member->lft > $node->rgt && $foo < 100) {
+                $foo++; // REMOVE THIS
                 $node = $node->parent;
             }
 
-            // Add this node as a child of the parent
-            array_push($node->children, new MemberWithChildrenAndParents($member->id, $member->name, $member->name, $member->lft, $member->rgt, $node, $null));
+            $array = array();
+            array_push($node->children, new MemberWithChildrenAndParents($member->id, $member->name, $member->name, $member->lft, $member->rgt, $node, $array));
 
             if ($node->lft != $node->rgt-1) {
-                // This node is a branch - set it as the current node (aka drill down a level)
                 $node = $node->children[sizeof($node->children)-1];
             }
         }
