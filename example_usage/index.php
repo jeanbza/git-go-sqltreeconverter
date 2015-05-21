@@ -38,13 +38,24 @@ class MemberWithChildrenAndParents {
         $this->parent = $parent;
         $this->children = $children;
     }
+
+    function to_json() {
+        $json = "{";
+
+        $json .= '"id":'.$this->id.',"member_type":'.$this->member_type.',"lft":'.$this->lft.',"rgt":'.$this->rgt.',"children":[';
+
+        foreach ($this->children as $child) {
+            $json .= $child->to_json();
+        }
+
+        return $json . "]}";
+    }
 }
 
 // Convert left/right objects to parent/children objects
 function unserializeFromDatabase($membersWithLeftsAndRights) {
     $root = null;
     $node = null;
-    $null = null;
 
     $foo = 0; // REMOVE THIS
 
@@ -55,8 +66,7 @@ function unserializeFromDatabase($membersWithLeftsAndRights) {
         $membersWithLeftsAndRights = array_slice($membersWithLeftsAndRights, 1, sizeof($membersWithLeftsAndRights));
 
         if ($root == null) {
-            $array = array();
-            $root = new MemberWithChildrenAndParents($member->id, $member->member_type, $member->name, $member->lft, $member->rgt, $null, $array);
+            $root = new MemberWithChildrenAndParents($member->id, $member->member_type, $member->name, $member->lft, $member->rgt, $tmp = null, $array = array());
             $node = $root;
         } else {
             // REMOVE THIS
@@ -70,8 +80,7 @@ function unserializeFromDatabase($membersWithLeftsAndRights) {
                 $node = $node->parent;
             }
 
-            $array = array();
-            array_push($node->children, new MemberWithChildrenAndParents($member->id, $member->member_type, $member->name, $member->lft, $member->rgt, $node, $array));
+            array_push($node->children, new MemberWithChildrenAndParents($member->id, $member->member_type, $member->name, $member->lft, $member->rgt, $node, $array = array()));
 
             if ($node->lft != $node->rgt-1) {
                 $node = $node->children[sizeof($node->children)-1];
@@ -79,7 +88,7 @@ function unserializeFromDatabase($membersWithLeftsAndRights) {
         }
     }
 
-    print_r($root);
+    echo $root->to_json();
 
     return $root;
 }
