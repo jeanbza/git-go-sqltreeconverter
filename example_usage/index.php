@@ -27,13 +27,13 @@ class MemberWithChildrenAndParents {
     public $parent;
     public $children;
 
-    function __construct($id, $member_type, $name, $rgt, $lft, &$parent, &$children) {
+    function __construct($id, $member_type, $name, $lft, $rgt, &$parent, &$children) {
         $this->id = $id;
         $this->member_type = $member_type;
         $this->name = $name;
 
-        $this->rgt = $rgt;
         $this->lft = $lft;
+        $this->rgt = $rgt;
 
         $this->parent = $parent;
         $this->children = $children;
@@ -56,11 +56,9 @@ function unserializeFromDatabase($membersWithLeftsAndRights) {
 
         if ($root == null) {
             $array = array();
-            $root = new MemberWithChildrenAndParents($member->id, $member->name, $member->name, $member->lft, $member->rgt, $null, $array);
+            $root = new MemberWithChildrenAndParents($member->id, $member->member_type, $member->name, $member->lft, $member->rgt, $null, $array);
             $node = $root;
         } else {
-            print_r($node);
-
             // REMOVE THIS
             if ($node->rgt == null) {
                 return;
@@ -73,13 +71,15 @@ function unserializeFromDatabase($membersWithLeftsAndRights) {
             }
 
             $array = array();
-            array_push($node->children, new MemberWithChildrenAndParents($member->id, $member->name, $member->name, $member->lft, $member->rgt, $node, $array));
+            array_push($node->children, new MemberWithChildrenAndParents($member->id, $member->member_type, $member->name, $member->lft, $member->rgt, $node, $array));
 
             if ($node->lft != $node->rgt-1) {
                 $node = $node->children[sizeof($node->children)-1];
             }
         }
     }
+
+    print_r($root);
 
     return $root;
 }
