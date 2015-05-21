@@ -40,15 +40,19 @@ class MemberWithChildrenAndParents {
     }
 
     function to_json() {
-        $json = "{";
+        $json = '{';
 
         $json .= '"id":'.$this->id.',"member_type":'.$this->member_type.',"lft":'.$this->lft.',"rgt":'.$this->rgt.',"children":[';
 
-        foreach ($this->children as $child) {
+        foreach ($this->children as $index => $child) {
+            if ($index != 0) {
+                $json .= ',';
+            }
+
             $json .= $child->to_json();
         }
 
-        return $json . "]}";
+        return $json . ']}';
     }
 }
 
@@ -88,8 +92,6 @@ function unserializeFromDatabase($membersWithLeftsAndRights) {
         }
     }
 
-    echo $root->to_json();
-
     return $root;
 }
 
@@ -116,7 +118,9 @@ function getNodesFromDatabase() {
 }
 
 $members_with_lefts_and_rights = getNodesFromDatabase();
-$members_with_parents_and_children = unserializeFromDatabase($members_with_lefts_and_rights);
+$members_with_children_and_parents = unserializeFromDatabase($members_with_lefts_and_rights);
+
+$members_json = $members_with_children_and_parents->to_json();
 
 ?>
 
@@ -130,7 +134,7 @@ $members_with_parents_and_children = unserializeFromDatabase($members_with_lefts
     <script src="static/js/app.js"></script>
 
     <script type="text/javascript">
-        var frontData = JSON.parse('<?php echo json_encode($members); ?>');
+        var frontData = JSON.parse('<?php echo $members_json; ?>');
         var treeData = frontData;
         var matchingUsers = frontData['matchingUsers'];
         $(document).ready(function () {
