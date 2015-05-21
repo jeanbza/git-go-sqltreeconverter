@@ -42,7 +42,7 @@ class MemberWithChildrenAndParents {
     function to_json() {
         $json = '{';
 
-        $json .= '"id":'.$this->id.',"member_type":'.$this->member_type.',"lft":'.$this->lft.',"rgt":'.$this->rgt.',"children":[';
+        $json .= '"id":'.$this->id.',"member_type":'.$this->member_type.',"name":"'.$this->name.'","lft":'.$this->lft.',"rgt":'.$this->rgt.',"children":[';
 
         foreach ($this->children as $index => $child) {
             if ($index != 0) {

@@ -8,7 +8,7 @@ function initTree(treeData) {
             bottom: 20,
             left: 120
         },
-        width = 860 - margin.right - margin.left,
+        width = 1800 - margin.right - margin.left,
         height = 500 - margin.top - margin.bottom;
 
     var i = 0,
@@ -29,7 +29,7 @@ function initTree(treeData) {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    root = treeData[0];
+    root = treeData;
     root.x0 = height / 2;
     root.y0 = 0;
 
