@@ -126,6 +126,8 @@ $members_json = $members_with_children_and_parents->to_json();
 
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="static/css/app.css">
+
     <script src="static/js/external/jquery/jquery-2.0.3.min.js"></script>
     <script src="static/js/external/jquery-ui/jquery-ui.js"></script>
     <script src="static/js/external/bootstrap/bootstrap.min.js"></script>
