@@ -133,7 +133,6 @@ $members_json = $members_with_children_and_parents->to_json();
     <script src="static/js/external/bootstrap/bootstrap.min.js"></script>
     <script src="static/js/external/d3/d3.v3.min.js"></script>
     <script src="static/js/conditions_tree.js"></script>
-    <script src="static/js/app.js"></script>
 
     <script type="text/javascript">
         var frontData = JSON.parse('<?php echo $members_json; ?>');
@@ -141,7 +140,6 @@ $members_json = $members_with_children_and_parents->to_json();
         var matchingUsers = frontData['matchingUsers'];
         $(document).ready(function () {
             initTree(treeData);
-            rematchUsers(matchingUsers);
         });
     </script>
 </head>

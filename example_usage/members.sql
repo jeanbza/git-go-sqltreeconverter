@@ -40,22 +40,26 @@ CREATE TABLE `members` (
 LOCK TABLES `members` WRITE;
 /*!40000 ALTER TABLE `members` DISABLE KEYS */;
 INSERT INTO `members` (id, member_type_id, lft, rght, first_name, last_name) VALUES
-(1000,1,1,32,'Marc','Schneider'),
-(1100,2,2,3,'Marc','Schneider'),
-(1101,1,4,5,'Hein','Ludick'),
-(1102,1,6,31,'Julian','Du Plessis'),
-(1103,1,7,8,'Dale','Swanepoel'),
-(1104,1,9,30,'Dwayn','Smith'),
-(1105,1,10,29,'Wayne','Laubscher'),
-(1106,1,11,12,'Sean','De Beer'),
-(1116,1,13,28,'Kay','Cheytanov'),
-(1118,2,14,15,'bruce','van der west huizen'),
-(1124,1,16,17,'Ferdinand ','Groenewald'),
-(1125,1,18,27,'Sasha','Janse van Vuuren'),
-(1126,1,19,26,'Lucan','Drummond'),
-(1128,1,20,21,'Noxolo','Skomolo'),
-(1129,1,22,23,'Clarissa','Britz'),
-(1130,2,24,25,'ayabonga','booi');
+(1,1,1,40,'Marc','Schneider'),
+(2,2,2,3,'Marc','Schneider'),
+(3,1,4,5,'Hein','Ludick'),
+(4,1,6,39,'Julian','Du Plessis'),
+(5,1,7,8,'Dale','Swanepoel'),
+(6,1,9,38,'Dwayn','Smith'),
+(7,1,10,37,'Wayne','Laubscher'),
+(8,1,11,12,'Sean','De Beer'),
+(9,1,13,36,'Kay','Cheytanov'),
+(10,2,14,23,'bruce','van der west huizen'),
+(11,2,15,16,'jack','black'),
+(12,2,17,22,'tom','hanks'),
+(13,2,18,19,'michael','fassbender'),
+(14,2,20,21,'jet','li'),
+(15,1,24,25,'Ferdinand ','Groenewald'),
+(16,1,26,35,'Sasha','Janse van Vuuren'),
+(17,1,27,34,'Lucan','Drummond'),
+(18,1,28,29,'Noxolo','Skomolo'),
+(19,1,30,31,'Clarissa','Britz'),
+(20,2,32,33,'ayabonga','booi');
 /*!40000 ALTER TABLE `members` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

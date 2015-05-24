@@ -12,4 +12,9 @@ Example usage using very light php to fetch data (use any language of your choic
     - `mysqli.default_socket=/tmp/mysql.sock`
 1. `ln -s /Applications/XAMPP/htdocs/sqltree /path/to/git-go-sqltreeconverter`
 1. Start xampp apache server (mac client is called manager-osx)
+1. Load `members.sql` into a database called `tree_example` (feel free to change code to fit your db). Example:
+    1. `mysql -uroot`
+    1. `create database tree_example`
+    1. `use tree_example`
+    1. `source /path/to/this/repo/members.sql`
 1. Open browser and navigate to `http://localhost/sqltree/example_usage/`
