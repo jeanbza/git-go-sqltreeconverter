@@ -120,7 +120,7 @@ function getNodesFromDatabase() {
 $members_with_lefts_and_rights = getNodesFromDatabase();
 $members_with_children_and_parents = unserializeFromDatabase($members_with_lefts_and_rights);
 
-$members_json = $members_with_children_and_parents->to_json();
+$members_json_all = $members_with_children_and_parents->to_json();
 
 ?>
 
@@ -135,16 +135,17 @@ $members_json = $members_with_children_and_parents->to_json();
     <script src="static/js/conditions_tree.js"></script>
 
     <script type="text/javascript">
-        var frontData = JSON.parse('<?php echo $members_json; ?>');
-        var treeData = frontData;
-        var matchingUsers = frontData['matchingUsers'];
+        var treeDataAllUsers = JSON.parse('<?php echo $members_json_all; ?>');;
         $(document).ready(function () {
-            initTree(treeData);
+            initTree(treeDataAllUsers, "d3-tree-all");
+            initTree(treeDataAllUsers, "d3-tree-single");
         });
     </script>
 </head>
 <body>
-    <div id="d3-tree">
-    </div>
+    <h1>All Users</h1>
+    <div id="d3-tree-all"></div>
+    <h1>Viewing As Wayne Laubscher</h1>
+    <div id="d3-tree-single"></div>
 </body>
 </html>
