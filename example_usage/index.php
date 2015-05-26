@@ -57,6 +57,7 @@ class MemberWithChildrenAndParents {
 }
 
 // Convert left/right objects to parent/children objects
+// Note: data ordered by left (in sql: ORDER BY lft) is very important for this to work
 function unserializeFromDatabase($membersWithLeftsAndRights) {
     $root = null;
     $node = null;
@@ -95,7 +96,7 @@ function unserializeFromDatabase($membersWithLeftsAndRights) {
     return $root;
 }
 
-function getNodesFromDatabase() {
+function getNodesFromDatabase($sql) {
     $members = array();
 
     $servername = "localhost";
@@ -105,7 +106,6 @@ function getNodesFromDatabase() {
     // Create connection
     $conn = new mysqli($servername, $username, $password);
 
-    $sql = "SELECT id, member_type_id, lft, rght, first_name, last_name FROM tree_example.members ORDER BY lft";
     $result = $conn->query($sql);
 
     while ($row = $result->fetch_assoc()) {
@@ -117,10 +117,24 @@ function getNodesFromDatabase() {
     return $members;
 }
 
-$members_with_lefts_and_rights = getNodesFromDatabase();
-$members_with_children_and_parents = unserializeFromDatabase($members_with_lefts_and_rights);
+// Note: ORDER BY lft is very important
+$all_members_sql = 'SELECT id, member_type_id, lft, rght, first_name, last_name FROM tree_example.members ORDER BY lft';
+$all_members_with_lefts_and_rights = getNodesFromDatabase($all_members_sql);
+$all_members_with_children_and_parents = unserializeFromDatabase($all_members_with_lefts_and_rights);
+$all_members_json = $all_members_with_children_and_parents->to_json();
 
-$members_json_all = $members_with_children_and_parents->to_json();
+// Let's pretend Wayne Laubscher (id = 7) is logged in
+$specific_member_id = 7;
+$specific_members_sql = '
+  SELECT id, member_type_id, lft, rght, first_name, last_name
+  FROM tree_example.members
+  WHERE lft >= (SELECT lft from tree_example.members WHERE id = ' . $specific_member_id . ')
+  AND rght <= (SELECT rght from tree_example.members WHERE id = ' . $specific_member_id . ')
+  ORDER BY lft
+';
+$specific_members_with_lefts_and_rights = getNodesFromDatabase($specific_members_sql);
+$specific_members_with_children_and_parents = unserializeFromDatabase($specific_members_with_lefts_and_rights);
+$specific_members_json = $specific_members_with_children_and_parents->to_json();
 
 ?>
 
@@ -135,17 +149,18 @@ $members_json_all = $members_with_children_and_parents->to_json();
     <script src="static/js/conditions_tree.js"></script>
 
     <script type="text/javascript">
-        var treeDataAllUsers = JSON.parse('<?php echo $members_json_all; ?>');;
+        var treeDataAllUsers = JSON.parse('<?php echo $all_members_json; ?>');;
+        var treeDataSpecificUsers = JSON.parse('<?php echo $specific_members_json; ?>');;
         $(document).ready(function () {
             initTree(treeDataAllUsers, "d3-tree-all");
-            initTree(treeDataAllUsers, "d3-tree-single");
+            initTree(treeDataSpecificUsers, "d3-tree-single");
         });
     </script>
 </head>
 <body>
     <h1>All Users</h1>
     <div id="d3-tree-all"></div>
-    <h1>Viewing As Wayne Laubscher</h1>
+    <h1>Viewing As Wayne Laubscher (id=7)</h1>
     <div id="d3-tree-single"></div>
 </body>
 </html>
