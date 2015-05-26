@@ -18,3 +18,5 @@ Example usage using very light php to fetch data (use any language of your choic
     1. `use tree_example`
     1. `source /path/to/this/repo/members.sql`
 1. Open browser and navigate to `http://localhost/sqltree/example_usage/`
+
+![](tree_pic.png)
