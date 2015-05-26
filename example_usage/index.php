@@ -56,8 +56,30 @@ class MemberWithChildrenAndParents {
     }
 }
 
-// Convert left/right objects to parent/children objects
+function getNodesFromDatabase($sql) {
+    $members = array();
+
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password);
+
+    $result = $conn->query($sql);
+
+    while ($row = $result->fetch_assoc()) {
+        array_push($members, new MemberWithLeftsAndRights($row["id"], $row["member_type_id"], $row["lft"], $row["rght"], $row["first_name"], $row["last_name"]));
+    }
+
+    $conn->close();
+
+    return $members;
+}
+
+// Convert left/right objects to tree with parent+child relationships
 // Note: data ordered by left (in sql: ORDER BY lft) is very important for this to work
+// Note: this runs in nlogn, which is far better than the n^2 if we were using parent_id in database
 function unserializeFromDatabase($membersWithLeftsAndRights) {
     $root = null;
     $node = null;
@@ -96,25 +118,15 @@ function unserializeFromDatabase($membersWithLeftsAndRights) {
     return $root;
 }
 
-function getNodesFromDatabase($sql) {
-    $members = array();
-
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-
-    // Create connection
-    $conn = new mysqli($servername, $username, $password);
-
-    $result = $conn->query($sql);
-
-    while ($row = $result->fetch_assoc()) {
-        array_push($members, new MemberWithLeftsAndRights($row["id"], $row["member_type_id"], $row["lft"], $row["rght"], $row["first_name"], $row["last_name"]));
+function limitChildrenToFourDepth(&$member, $depth = 0) {
+    if ($depth == 3) {
+        // throw away all children below depth 3
+        $member->children = array();
+    } else {
+        for ($i = 0; $i < sizeof($member->children); $i++) {
+            limitChildrenToFourDepth($member->children[$i], $depth+1);
+        }
     }
-
-    $conn->close();
-
-    return $members;
 }
 
 // Note: ORDER BY lft is very important
@@ -134,6 +146,7 @@ $specific_members_sql = '
 ';
 $specific_members_with_lefts_and_rights = getNodesFromDatabase($specific_members_sql);
 $specific_members_with_children_and_parents = unserializeFromDatabase($specific_members_with_lefts_and_rights);
+limitChildrenToFourDepth($specific_members_with_children_and_parents);
 $specific_members_json = $specific_members_with_children_and_parents->to_json();
 
 ?>
