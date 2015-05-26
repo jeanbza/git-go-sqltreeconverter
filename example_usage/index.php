@@ -171,7 +171,7 @@ $specific_members_json = $specific_members_with_children_and_parents->to_json();
     </script>
 </head>
 <body>
-    <h1>All Users</h1>
+    <h1>All Members</h1>
     <div id="d3-tree-all"></div>
     <h1>Viewing As Wayne Laubscher (id=7)</h1>
     <div id="d3-tree-single"></div>
