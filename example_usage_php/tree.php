@@ -19,7 +19,7 @@ $specific_members_sql = '
 ';
 $specific_members_with_lefts_and_rights = getNodesFromDatabase($specific_members_sql);
 $specific_members_with_children_and_parents = unserializeFromDatabase($specific_members_with_lefts_and_rights);
-limitChildrenToFourDepth($specific_members_with_children_and_parents);
+limitChildrenToDepth($specific_members_with_children_and_parents, 4);
 $specific_members_json = $specific_members_with_children_and_parents->to_json();
 
 ?>

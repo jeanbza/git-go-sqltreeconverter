@@ -141,13 +141,13 @@ function unserializeFromDatabase($membersWithLeftsAndRights) {
     return $root;
 }
 
-function limitChildrenToFourDepth(&$member, $depth = 0) {
-    if ($depth == 3) {
+function limitChildrenToDepth(&$member, $limit = 4, $depth = 0) {
+    if ($depth == $limit) {
         // throw away all children below depth 3
         $member->children = array();
     } else {
         for ($i = 0; $i < sizeof($member->children); $i++) {
-            limitChildrenToFourDepth($member->children[$i], $depth + 1);
+            limitChildrenToDepth($member->children[$i], $depth + 1);
         }
     }
 }
