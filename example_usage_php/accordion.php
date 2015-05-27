@@ -97,6 +97,8 @@ foreach ($specific_members_array as $level => $level_members) {
 </head>
 <body>
 
+<h3>Viewing As Wayne Laubscher (id=7)</h3>
+
 <div class="accordion">
     <?php
     foreach ($members_array_counts as $level => $level_info) {

@@ -1,6 +1,7 @@
 # Example usage: php
 
-Example usage using very light php to fetch data (use any language of your choice for this) and some javascript to render the tree.
+Built for specific usecase - NOT the general case. Example usage using light php to fetch data (use any language of your
+choice for this) and some javascript to render the tree and accordion.
 
 ## Running
 
@@ -18,5 +19,7 @@ Example usage using very light php to fetch data (use any language of your choic
     1. `use tree_example`
     1. `source /path/to/this/repo/members.sql`
 1. Open browser and navigate to `http://localhost/sqltree/example_usage/`
+
+![](accordion_pic.png)
 
 ![](tree_pic.png)

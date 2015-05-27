@@ -30,7 +30,7 @@ $specific_members_json = $specific_members_with_children_and_parents->to_json();
 
     <script src="static/js/external/jquery/jquery-2.0.3.min.js"></script>
     <script src="static/js/external/jquery-ui/jquery-ui.js"></script>
-    <script src="static/js/external/bootstrap/bootstrap.min.js"></script>
+    <script src="static/js/external/bootstrap/bootstrap-3.3.4.js"></script>
     <script src="static/js/external/d3/d3.v3.min.js"></script>
     <script src="static/js/conditions_tree.js"></script>
 
