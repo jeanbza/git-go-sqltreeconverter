@@ -13,7 +13,7 @@ $specific_members_sql = '
 ';
 $specific_members_with_lefts_and_rights = getNodesFromDatabase($specific_members_sql);
 $specific_members_with_children_and_parents = unserializeFromDatabase($specific_members_with_lefts_and_rights);
-$specific_members_array = $specific_members_with_children_and_parents->to_array(4);
+$specific_members_array = $specific_members_with_children_and_parents->to_array(3);
 
 ?>
 
@@ -26,7 +26,7 @@ $specific_members_array = $specific_members_with_children_and_parents->to_array(
     <script>
         $(document).ready(function () {
             $('.accordion .head').click(function () {
-                $(this).next().toggle('slow');
+                $(this).next().toggle('fast');
                 return false;
             }).next().hide();
         });

@@ -68,7 +68,7 @@ class MemberWithChildrenAndParents {
 
             foreach ($members_at_this_level as $member) {
                 array_push($members_at_each_level[$i], $member);
-                array_merge($members_at_next_level, $member->children);
+                $members_at_next_level = array_merge($members_at_next_level, $member->children);
             }
 
             $members_at_this_level = $members_at_next_level;
