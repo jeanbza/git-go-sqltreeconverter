@@ -48,7 +48,7 @@ INSERT INTO `members` (id, member_type_id, lft, rght, first_name, last_name) VAL
 (6,1,9,38,'Dwayn','Smith'),
 (7,1,10,37,'Wayne','Laubscher'),
 (8,1,11,12,'Sean','De Beer'),
-(9,1,13,36,'Kay','Cheytanov'),
+(9,2,13,36,'Kay','Cheytanov'),
 (10,2,14,23,'bruce','van der west huizen'),
 (11,2,15,16,'jack','black'),
 (12,2,17,22,'tom','hanks'),

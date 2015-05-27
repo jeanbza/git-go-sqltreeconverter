@@ -16,13 +16,33 @@ $specific_members_with_children_and_parents = unserializeFromDatabase($specific_
 $specific_members_array = $specific_members_with_children_and_parents->to_array(4);
 $members_array_counts = array();
 
-foreach ($specific_members_array as $level_members) {
-    array_push($members_array_counts, array(
-        'ibo_count' => 5,
-        'ibo_names' => array('a', 'b', 'c'),
-        'student_count' => 10,
-        'student_names' => array('e', 'f', 'g')
-    ));
+foreach ($specific_members_array as $level => $level_members) {
+    if ($level + 1 != sizeof($specific_members_array)) {
+        $next_level_members = $specific_members_array[$level + 1];
+
+        // Set up IBO members and names
+        $next_level_ibo_members = array_filter($next_level_members, function($member) {
+            return $member->member_type == 1;
+        });
+        $next_level_ibo_names = array();
+        foreach ($next_level_ibo_members as $member) { array_push($next_level_ibo_names, $member->name); }
+
+        // Set up student members and names
+        $next_level_student_members = array_filter($next_level_members, function($member) {
+            return $member->member_type == 2;
+        });
+        $next_level_student_names = array();
+        if ($level == 0) {
+            foreach ($next_level_student_members as $member) { array_push($next_level_student_names, $member->name); }
+        }
+
+        array_push($members_array_counts, array(
+            'ibo_count' => sizeof($next_level_ibo_members),
+            'ibo_names' => $next_level_ibo_names,
+            'student_count' => sizeof($next_level_student_members),
+            'student_names' => $next_level_student_names
+        ));
+    }
 }
 
 ?>
