@@ -24,7 +24,7 @@ Fuller (un-built, compile and run):
 
 Unit:
 
-1. `go test .../.`
+1. `go test ./...`
 
 Acceptance:
 
