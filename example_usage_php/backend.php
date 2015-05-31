@@ -106,8 +106,6 @@ function getNodesFromDatabase($sql) {
 // Note: data ordered by left (in sql: ORDER BY lft) is very important for this to work
 // Note: this runs in nlogn, which is far better than the n^2 if we were using parent_id in database
 function unserializeFromDatabase($membersWithLeftsAndRights) {
-    print_r($membersWithLeftsAndRights);
-
     $root = null;
     $node = null;
 

@@ -3,10 +3,10 @@
 include 'backend.php';
 
 // Let's pretend Wayne Laubscher (id = 7) is logged in
-$specific_member_id = 7;
+$specific_member_id = 1000;
 $specific_members_sql = '
   SELECT id, member_type_id, lft, rght, first_name, last_name
-  FROM tree_example.members
+  FROM ' . $databaseAndTable . '
   WHERE lft >= (SELECT lft FROM ' . $databaseAndTable . ' WHERE id = ' . $specific_member_id . ')
   AND rght <= (SELECT rght FROM ' . $databaseAndTable . ' WHERE id = ' . $specific_member_id . ')
   ORDER BY lft
@@ -97,7 +97,7 @@ foreach ($specific_members_array as $level => $level_members) {
 </head>
 <body>
 
-<h3>Viewing As Wayne Laubscher (id=7)</h3>
+<h3>Viewing As Root (id=1000)</h3>
 
 <div class="accordion">
     <?php
