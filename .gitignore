@@ -23,11 +23,15 @@ _testmain.go
 *.test
 *.prof
 
-*output.sql
-*input.sql
+output.sql
+input.sql
+boom_input.sql
 
 *.iml
 *.lock
 *.xml
 .idea*
 .DS_Store
+
+git-go-sqltreeconverter
+

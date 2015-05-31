@@ -7,8 +7,8 @@ $specific_member_id = 7;
 $specific_members_sql = '
   SELECT id, member_type_id, lft, rght, first_name, last_name
   FROM tree_example.members
-  WHERE lft >= (SELECT lft FROM tree_example.members WHERE id = ' . $specific_member_id . ')
-  AND rght <= (SELECT rght FROM tree_example.members WHERE id = ' . $specific_member_id . ')
+  WHERE lft >= (SELECT lft FROM ' . $databaseAndTable . ' WHERE id = ' . $specific_member_id . ')
+  AND rght <= (SELECT rght FROM ' . $databaseAndTable . ' WHERE id = ' . $specific_member_id . ')
   ORDER BY lft
 ';
 $specific_members_with_lefts_and_rights = getNodesFromDatabase($specific_members_sql);

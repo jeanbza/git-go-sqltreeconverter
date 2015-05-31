@@ -3,18 +3,18 @@
 include 'backend.php';
 
 // Note: ORDER BY lft is very important
-$all_members_sql = 'SELECT id, member_type_id, lft, rght, first_name, last_name FROM tree_example.members ORDER BY lft';
+$all_members_sql = 'SELECT id, member_type_id, lft, rght, first_name, last_name FROM ' . $databaseAndTable . ' ORDER BY lft';
 $all_members_with_lefts_and_rights = getNodesFromDatabase($all_members_sql);
 $all_members_with_children_and_parents = unserializeFromDatabase($all_members_with_lefts_and_rights);
 $all_members_json = $all_members_with_children_and_parents->to_json();
 
 // Let's pretend Wayne Laubscher (id = 7) is logged in
-$specific_member_id = 7;
+$specific_member_id = 9;
 $specific_members_sql = '
   SELECT id, member_type_id, lft, rght, first_name, last_name
   FROM tree_example.members
-  WHERE lft >= (SELECT lft from tree_example.members WHERE id = ' . $specific_member_id . ')
-  AND rght <= (SELECT rght from tree_example.members WHERE id = ' . $specific_member_id . ')
+  WHERE lft >= (SELECT lft from ' . $databaseAndTable . ' WHERE id = ' . $specific_member_id . ')
+  AND rght <= (SELECT rght from ' . $databaseAndTable . ' WHERE id = ' . $specific_member_id . ')
   ORDER BY lft
 ';
 $specific_members_with_lefts_and_rights = getNodesFromDatabase($specific_members_sql);

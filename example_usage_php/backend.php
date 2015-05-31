@@ -2,6 +2,8 @@
 
 // Note: this should be an api that your javascript consumes with AJAX
 
+$databaseAndTable = 'converter.members';
+
 class MemberWithLeftsAndRights {
     public $id;
     public $member_type;
@@ -104,6 +106,8 @@ function getNodesFromDatabase($sql) {
 // Note: data ordered by left (in sql: ORDER BY lft) is very important for this to work
 // Note: this runs in nlogn, which is far better than the n^2 if we were using parent_id in database
 function unserializeFromDatabase($membersWithLeftsAndRights) {
+    print_r($membersWithLeftsAndRights);
+
     $root = null;
     $node = null;
 

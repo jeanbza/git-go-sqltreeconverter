@@ -5,10 +5,11 @@ Convert adjacency model (id, parent_id) trees into nested set (id, left, right) 
 
 --
 
-### Examples
+### Running
 
 Simple (pre-built binary):
 
+1. `go build` (if not pre-built)
 1. `./git-go-sqlconverter --input in.sql --output out.sql`
 
 Fuller (un-built, compile and run):
@@ -18,6 +19,19 @@ Fuller (un-built, compile and run):
 1. `mysql -uroot < bam.sql`
 
 * Note: you will need to install go to run this program. See [installation documentation here](https://golang.org/doc/install)
+
+### Running tests
+
+Unit:
+
+1. `go test .../.`
+
+Acceptance:
+
+1. `mysql -uroot -e 'create database converter'`
+1. `cd acceptance_tests`
+1. `bundle`
+1. `rspec`
 
 ### Flags
 
